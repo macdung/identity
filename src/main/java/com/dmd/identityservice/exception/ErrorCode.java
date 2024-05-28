@@ -11,7 +11,8 @@ public enum ErrorCode {
     USER_EXISTED(1001,"userExisted"),
     USER_NOT_EXISTED(1005,"userNotExisted"),
     INVALID_USERNAME(1002,"invalidUsername"),
-    UNCATEGORIZED_EXCEPTION(9999, "uncategorizedException");
+    UNCATEGORIZED_EXCEPTION(9999, "uncategorizedException"),
+    UNAUTHENTICATED(1006,"unauthenticated");
     private int code;
     private String message;
 }
