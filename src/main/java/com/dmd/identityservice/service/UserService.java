@@ -10,6 +10,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,15 +26,16 @@ public class UserService {
 
         if (userRepository.existsByUsername(request.getUsername()))
             throw new RuntimeException("duplicate username");
-        User user = User.builder()
-                .username(request.getUsername())
-                .password(request.getPassword())
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .dob(request.getDob()).build();
+//        User user = User.builder()
+//                .username(request.getUsername())
+//                .password(request.getPassword())
+//                .firstName(request.getFirstName())
+//                .lastName(request.getLastName())
+//                .dob(request.getDob()).build();
 
         User user1 = userMapper.toUser(request);
-
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user1.setPassword(passwordEncoder.encode(request.getPassword()));
         return userRepository.save(user1);
     }
 
