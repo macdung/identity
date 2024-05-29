@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserMapper {
     User toUser(UserCreateReq req);
     void updateUser(@MappingTarget User user, UserUpdateReq req);
-    @Mapping(source = "firstName", target = "lastName")
-    @Mapping(target = "firstName", ignore = true)
+//    @Mapping(source = "firstName", target = "lastName")
+//    @Mapping(target = "firstName", ignore = true)
     UserResponse toUserResponse(User user);
 }

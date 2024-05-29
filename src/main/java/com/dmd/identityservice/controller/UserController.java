@@ -23,7 +23,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody @Valid UserCreateReq request) {
+    UserResponse createUser(@RequestBody @Valid UserCreateReq request) {
         return userService.create(request);
     }
     @GetMapping
@@ -35,6 +35,11 @@ public class UserController {
        APIResponse<UserResponse> response = new APIResponse<>();
        response.setResult(userService.select(userId));
        return response;
+    }
+
+    @GetMapping("/myInfo")
+    APIResponse<UserResponse> getMyInfo() {
+        return  APIResponse.<UserResponse>builder().result(userService.getMyInfo()).build();
     }
     @PutMapping("/{userId}")
     User update(@PathVariable("userId") String userId, @RequestBody UserUpdateReq req) {
