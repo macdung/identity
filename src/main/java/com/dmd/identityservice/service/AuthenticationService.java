@@ -34,8 +34,8 @@ import java.util.Date;
 public class AuthenticationService {
     UserRepository repository;
     @NonFinal
-    @Value("$jwt.signerKey}")
-    protected static String SIGNER_KEY;
+    @Value("${jwt.signerKey}")
+    protected String SIGNER_KEY;
 
     public AuthenticationRes authenticate(AuthenticationReq req) throws JOSEException {
         var user = repository.findByUsername(req.getUsername())
