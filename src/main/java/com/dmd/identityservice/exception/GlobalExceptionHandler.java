@@ -2,6 +2,7 @@ package com.dmd.identityservice.exception;
 
 import com.dmd.identityservice.dto.response.APIResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,12 +26,18 @@ public class GlobalExceptionHandler {
         APIResponse response = new APIResponse<>();
         response.setCode(e.getErrorCode().getCode());
         response.setMessage(e.getErrorCode().getMessage());
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.status(e.getErrorCode().getStatusCode()).body(response);
     }
 
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<String> handlingValidateException(MethodArgumentNotValidException e){
         return ResponseEntity.badRequest().body(Objects.requireNonNull(e.getFieldError()).getDefaultMessage());
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<APIResponse> handlingAccessDeniedException(AccessDeniedException e){
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+        return ResponseEntity.status(errorCode.getStatusCode()).body(APIResponse.builder().code(errorCode.getCode()).message(errorCode.getMessage()).build());
     }
 }
